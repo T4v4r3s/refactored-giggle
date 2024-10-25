@@ -1,29 +1,25 @@
 #ifndef USUARIO_H
 #define USUARIO_H
 
-#include "pedido.h"
-#include "mensagem.h"
 
-// Definição de estrutura de parceiro
-typedef struct parceiro {
-    char apelido[30];
-    struct parceiro *prox;
-} Parceiro;
+// Estrutura auxiliar para posições de usuários
+typedef struct posicoes{
+    Usuario *inicio;
+    Usuario *fim;
+}Posicoes;
 
-// Definição de estrutura de usuário
+// Estrutura de usuário
 typedef struct usuario {
     char nome[50];
     char apelido[30];
-    Parceiro *parceiros;
-    Pedido *pedidos;
-    Mensagem *mensagens;
+    char senha[30];
     struct usuario *prox;
 } Usuario;
 
 // Funções relacionadas ao usuário
+int login(Usuario *usuarios, char *apelido, char *senha);
 Usuario* criarUsuario(char *nome, char *apelido);
 void cadastrarUsuario(Usuario **usuarios, char *nome, char *apelido);
 void listarUsuarios(Usuario *usuarios);
-Parceiro* criarParceiro(char *apelido);
 
 #endif
