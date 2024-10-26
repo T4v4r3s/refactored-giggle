@@ -3,54 +3,73 @@
 #include <string.h>
 #include "usuario.h"
 
+// Função para inicializar a lista
+void inicializarLista(Posicoes *lista) {
+    lista->inicio = NULL;
+    lista->fim = NULL;
+}
+
 // Função para criar um novo usuário
-Usuario* criarUsuario(char *nome, char *apelido, char *senha) {
-    // Aloca memória para um novo usuário e armazena o ponteiro em 'novo'
-    Usuario *novo = (Usuario*) malloc(sizeof(Usuario));
-
-    // Copia o nome, apelido e senha e joga para o novo
-    strcpy(novo->nome, nome);
-    strcpy(novo->apelido, apelido);
-    strcpy(novo->senha, senha);
-
-    // Inicializa o campo prox
-    novo->prox = NULL;
-
-    // Retorna essa "unidade" de usuário
+Usuario* criarUsuario(const char *nome, const char *apelido, const char *senha) {
+    Usuario *novo = (Usuario*)malloc(sizeof(Usuario));
+    if (novo) {
+        strcpy(novo->nome, nome);
+        strcpy(novo->apelido, apelido);
+        strcpy(novo->senha, senha);
+        novo->prox = NULL;
+        novo->ant = NULL;
+    }
     return novo;
 }
 
-// Faz o "Login" retornando 1 se a senha bater com o apelido, 0 caso não ou com algum erro encontrado
-int login(Usuario *usuarios, char *apelido, char *senha) {
-    // Percorre a lista de usuários
-    while (usuarios != NULL) {
-        // Compara o apelido do usuário atual
-        if (strcmp(usuarios->apelido, apelido) == 0) {
-            // Compara a senha do usuário atual
-            if (strcmp(usuarios->senha, senha) == 0) {
-                return 1; // Login funcionou
-            } else {
-                return 0; // Senha incorreta
-            }
+// Função para inserir um usuário na lista de forma ordenada
+void inserirOrdenado(Posicoes *lista, Usuario *novo) {
+    if (lista->inicio == NULL) {
+        // Lista vazia
+        lista->inicio = novo;
+        lista->fim = novo;
+    } else {
+        Usuario *atual = lista->inicio;
+        while (atual != NULL && strcmp(atual->nome, novo->nome) < 0) {
+            atual = atual->prox;
         }
-        // Avança para o próximo usuário
-        usuarios = usuarios->prox;
+        if (atual == lista->inicio) {
+            // Inserir no início
+            novo->prox = lista->inicio;
+            lista->inicio->ant = novo;
+            lista->inicio = novo;
+        } else if (atual == NULL) {
+            // Inserir no fim
+            lista->fim->prox = novo;
+            novo->ant = lista->fim;
+            lista->fim = novo;
+        } else {
+            // Inserir no meio
+            novo->prox = atual;
+            novo->ant = atual->ant;
+            atual->ant->prox = novo;
+            atual->ant = novo;
+        }
     }
-    return 0; // Usuário não encontrado
 }
 
-// Função para cadastrar um novo usuário
-void cadastrarUsuario(Usuario **usuarios, char *nome, char *apelido, char *senha) {
-    // Cria uma "unidade" de usuário
-    Usuario *novo = criarUsuario(nome, apelido, senha);
-
-    //Coloca na lista de usuários
-    novo->prox = *usuarios;
-    *usuarios = novo;
-    printf("Usuário %s (%s) cadastrado com sucesso!\n", nome, apelido);
+// Função para exibir a lista
+void exibirLista(Posicoes *lista) {
+    Usuario *atual = lista->inicio;
+    while (atual != NULL) {
+        printf("Nome: %s, Apelido: %s\n", atual->nome, atual->apelido);
+        atual = atual->prox;
+    }
 }
 
-// Função para listar todos os usuários e seus parceiros
-void listarUsuarios(Usuario *usuarios) {
-    return;
+// Função para liberar a memória da lista
+void liberarLista(Posicoes *lista) {
+    Usuario *atual = lista->inicio;
+    while (atual != NULL) {
+        Usuario *temp = atual;
+        atual = atual->prox;
+        free(temp);
+    }
+    lista->inicio = NULL;
+    lista->fim = NULL;
 }
