@@ -1,15 +1,20 @@
 #ifndef USUARIO_H
 #define USUARIO_H
 
+#include "msg.h"
+
+// Declaração do tipo Usuario antes da definição da estrutura
+typedef struct usuario Usuario;
 
 // Estrutura de usuário com ponteiros para o próximo e anterior
-typedef struct usuario {
+struct usuario {
     char nome[50];
     char apelido[30];
     char senha[30];
-    struct usuario *prox;
-    struct usuario *ant;
-} Usuario;
+    Conversas *chats;
+    Usuario *prox;
+    Usuario *ant;
+};
 
 // Estrutura da lista com ponteiros para o início e fim
 typedef struct posicoes {

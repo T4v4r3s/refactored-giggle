@@ -1,23 +1,30 @@
+# Nome do compilador
 CC = gcc
-CFLAGS = -Wall
-OBJ = main.o usuario.o mensagem.o pedido.o
 
-all: programa
+# Flags de compilação
+CFLAGS = -Wall -Wextra -Wno-unused-result
 
-programa: $(OBJ)
-	$(CC) $(CFLAGS) -o programa $(OBJ)
+# Objetos
+OBJ = main.o msg.o usuario.o
 
-main.o: main.c usuario.h mensagem.h pedido.h
+# Nome do executável
+TARGET = programa
+
+# Regras
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ)
+
+main.o: main.c msg.h usuario.h
 	$(CC) $(CFLAGS) -c main.c
+
+msg.o: msg.c msg.h
+	$(CC) $(CFLAGS) -c msg.c
 
 usuario.o: usuario.c usuario.h
 	$(CC) $(CFLAGS) -c usuario.c
 
-mensagem.o: mensagem.c mensagem.h usuario.h
-	$(CC) $(CFLAGS) -c mensagem.c
-
-pedido.o: pedido.c pedido.h usuario.h
-	$(CC) $(CFLAGS) -c pedido.c
-
+# Limpeza
 clean:
-	rm -f *.o programa
+	rm -f $(OBJ) $(TARGET)

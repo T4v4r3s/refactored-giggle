@@ -1,18 +1,19 @@
 #include <stdio.h>
 #include "usuario.h"
+#include "msg.h"
 
 void exibirMenu();
 
 int main() {
-    Usuario *usuarios = NULL;
+    //Usuario *usuarios = NULL;
     int opcao;
-    char nome[50], apelido[30];
+    //char nome[50], apelido[30];
 
     int logado = 0; // Variável para controlar o estado de login (0 = deslogado, 1 = logado)
 
     do {
         exibirMenu();
-        scanf("%d", &opcao);
+        (void) scanf("%d", &opcao); // Tive que mandar ignorar o retorno por conta do compilador
 
         switch (opcao) {
             case 1:

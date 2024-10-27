@@ -12,13 +12,12 @@ void inicializarLista(Posicoes *lista) {
 // Função para criar um novo usuário
 Usuario* criarUsuario(const char *nome, const char *apelido, const char *senha) {
     Usuario *novo = (Usuario*)malloc(sizeof(Usuario));
-    if (novo) {
-        strcpy(novo->nome, nome);
-        strcpy(novo->apelido, apelido);
-        strcpy(novo->senha, senha);
-        novo->prox = NULL;
-        novo->ant = NULL;
-    }
+    strcpy(novo->nome, nome);
+    strcpy(novo->apelido, apelido);
+    strcpy(novo->senha, senha);
+    novo-> chats = NULL;
+    novo->prox = NULL;
+    novo->ant = NULL;
     return novo;
 }
 
