@@ -16,6 +16,7 @@ Usuario* criarUsuario(const char *nome, const char *apelido, const char *senha) 
     strcpy(novo->apelido, apelido);
     strcpy(novo->senha, senha);
     novo-> chats = NULL;
+    novo-> pedido = NULL;
     novo->prox = NULL;
     novo->ant = NULL;
     return novo;
@@ -71,4 +72,19 @@ void liberarLista(Posicoes *lista) {
     }
     lista->inicio = NULL;
     lista->fim = NULL;
+}
+
+// Função para fazer login de um usuário
+int login(Posicoes *lista, const char *apelido, const char *senha) {
+    Usuario *atual = lista->inicio; // Começar do início da lista
+
+    while (atual != NULL) {
+        // Verificar se o apelido e a senha correspondem
+        if (strcmp(atual->apelido, apelido) == 0 && strcmp(atual->senha, senha) == 0) {
+            return 1; // Login bem-sucedido
+        }
+        atual = atual->prox; // Passar para o próximo usuário
+    }
+
+    return 0; // Login falhou
 }

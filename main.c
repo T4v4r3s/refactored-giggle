@@ -1,27 +1,38 @@
 #include <stdio.h>
+#include <string.h>
 #include "usuario.h"
 #include "msg.h"
 
 void exibirMenu();
 
 int main() {
-    //Usuario *usuarios = NULL;
+    Posicoes *listaUsuarios;
     int opcao;
-    //char nome[50], apelido[30];
+    char senha[30], apelido[30];
 
     int logado = 0; // Variável para controlar o estado de login (0 = deslogado, 1 = logado)
 
     do {
         exibirMenu();
-        (void) scanf("%d", &opcao); // Tive que mandar ignorar o retorno por conta do compilador
+        scanf("%d", &opcao);
 
         switch (opcao) {
             case 1:
+
                 if (logado) {
                     printf("Ja esta logado.\n");
                 } else {
                     printf("Fazendo login...\n");
-                    logado = 1;
+                    printf("Informe o usuário");
+                    scanf("%s", &apelido);
+
+                    printf("Informe a senha");
+                    scanf("%s", &senha);
+
+                    if (login(listaUsuarios, &apelido, &senha)){
+                        logado = 1;
+                    }
+                    
                 }
                 break;
             case 2:
