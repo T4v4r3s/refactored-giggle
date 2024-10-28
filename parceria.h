@@ -1,11 +1,13 @@
 #ifndef PARCERIA_H
 #define PARCERIA_H
 
+typedef struct pedidos Pedidos;
+typedef struct parceiros parceiros;
 
 typedef struct pedidos{
     
     char remetente[30];
-    pedidos *prox;
+    Pedidos *prox;
 
 }pedidos;
 

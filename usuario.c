@@ -53,14 +53,6 @@ void inserirOrdenado(Posicoes *lista, Usuario *novo) {
     }
 }
 
-// Função para exibir a lista
-void exibirLista(Posicoes *lista) {
-    Usuario *atual = lista->inicio;
-    while (atual != NULL) {
-        printf("Nome: %s, Apelido: %s\n", atual->nome, atual->apelido);
-        atual = atual->prox;
-    }
-}
 
 // Função para liberar a memória da lista
 void liberarLista(Posicoes *lista) {
@@ -87,4 +79,14 @@ int login(Posicoes *lista, const char *apelido, const char *senha) {
     }
 
     return 0; // Login falhou
+}
+
+int criarEInserirUsuario(Posicoes *lista, const char *nome, const char *apelido, const char *senha) {
+    Usuario *novo = criarUsuario(nome, apelido, senha); // Cria o usuário
+    if(novo == NULL){
+        return 0;
+    }
+    inserirOrdenado(lista, novo); // Insere na lista ordenada
+    return 1;
+
 }

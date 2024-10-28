@@ -27,6 +27,6 @@ struct conversas{
 
 Conversas *criarConversa(char *destinatario);
 Conteudo *criarConteudo(char *remetente, char *destinatario, char *mensagem);
-
+void pushConteudo(Conversas *conversa, char *remetente, char *destinatario, char *mensagem);
 
 #endif
