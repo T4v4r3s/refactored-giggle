@@ -3,6 +3,7 @@
         "pedido.h": "c",
         "usuario.h": "c",
         "mensagem.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "parceria.h": "c"
     }
 }
