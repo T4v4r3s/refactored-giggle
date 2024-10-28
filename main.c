@@ -8,6 +8,7 @@
 
 void exibirListaInversa(Posicoes *lista);
 void exibirLista(Posicoes *lista);
+void exibirParceriasUsuario(Usuario *usuario);
 
 int main() {
 
@@ -16,7 +17,7 @@ int main() {
     char apelidoEntrada[30];
     char senhaEntrada[30];
     int funcionando = 1;
-    int escolha, escolhaPrint;
+    int escolha, escolhaPrint, escolhaPedido;
     int flagLogado = 0;
     char apelidoCadastro[30];
     char senhaCadastro[30];
@@ -83,6 +84,8 @@ int main() {
         }
 
         if(flagLogado){
+
+            Usuario *usuarioLogado = buscarUsuario(usuarios, apelidoEntrada);
             
             do{
                 exibirMenu();
@@ -137,9 +140,31 @@ int main() {
                     break;
                 
                 case 4:
+                    pedidos *proximoPedido = mostrarPrimeiroFila(usuarioLogado->pedido);
+                    while(proximoPedido != NULL){
+                        if(proximoPedido == NULL){
+                            printf("Nennhum pedido encontrado!");
+                        }else{
+                            printf("\n%s deseja ser sua parceira. Aceita (1 - sim/2 -não)?\n", proximoPedido->remetente);
+                            scanf("%d", &escolhaPedido);
 
-                    
+                            if(escolhaPedido == 1){
+                                adicionarParceiro(usuarioLogado->parceiros, proximoPedido->remetente);
+                                Usuario *usuarioRemetente = buscarUsuario(usuarios, proximoPedido->remetente);
+                                adicionarParceiro(usuarioRemetente->parceiros, usuarioLogado->apelido);
+                                removerPedido(usuarioLogado->pedido);
+                                printf("\nPedido aceito com sucesso!\n");
+                            }else if(escolhaPedido == 2){
+                                removerPedido(usuarioLogado->pedido);
+                                printf("\nPedido recusado com sucesso!\n");
+                            }else{
+                                printf("\nInforme um numero valido\n");
+                            }
 
+                            proximoPedido = mostrarPrimeiroFila(usuarioLogado->pedido);
+                        }
+                    }
+                    printf("Nennhum pedido encontrado!");
                     break;
                 case 9:
                     printf("\nFazendo logout...\n");
@@ -185,6 +210,7 @@ void exibirLista(Posicoes *lista) {
     Usuario *atual = lista->inicio;
     while (atual != NULL) {
         printf("Nome: %s, Apelido: %s\n", atual->nome, atual->apelido);
+        exibirParceriasUsuario(atual);
         atual = atual->prox;
     }
 }
@@ -194,6 +220,28 @@ void exibirListaInversa(Posicoes *lista) {
     Usuario *atual = lista->fim;
     while (atual != NULL) {
         printf("Nome: %s, Apelido: %s\n", atual->nome, atual->apelido);
+        exibirParceriasUsuario(atual);
         atual = atual->ant;
+    }
+}
+
+// Função para exibir todas as parcerias de um usuário
+void exibirParceriasUsuario(Usuario *usuario) {
+    if (usuario == NULL) {
+        printf("Usuário inválido.\n");
+        return;
+    }
+
+    if (usuario->parceiros == NULL || usuario->parceiros->inicio == NULL) {
+        printf("O usuário %s não possui parcerias.\n", usuario->nome);
+        return;
+    }
+
+    printf("Parcerias do usuário %s:\n", usuario->nome);
+    parceiros *atual = usuario->parceiros->inicio;
+
+    while (atual != NULL) {
+        printf("- %s\n", atual->parceiro);
+        atual = atual->prox;
     }
 }
