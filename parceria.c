@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "parceria.h"
 
 pedidos* criarPedido(const char *remetente) {
@@ -9,14 +10,14 @@ pedidos* criarPedido(const char *remetente) {
     }
 
     strncpy(novoPedido->remetente, remetente, sizeof(novoPedido->remetente) - 1);
-    novoPedido->remetente[sizeof(novoPedido->remetente) - 1] = '\0'; // Garantir a terminação da string
+    novoPedido->remetente[sizeof(novoPedido->remetente) - 1] = '\0'; // Garantindo terminar string por conta de um bug (remover quando arrumar o bug)
     novoPedido->prox = NULL; // Inicializar o próximo ponteiro como NULL
 
     return novoPedido;
 }
 
 // Função para inicializar a fila
-indexPedidos* iniciarFila() {
+indexPedidos* inicializarFilaPedidos() {
     indexPedidos *fila = (indexPedidos*)malloc(sizeof(indexPedidos));
     if (fila == NULL) {
         return NULL;
@@ -31,7 +32,6 @@ indexPedidos* iniciarFila() {
 void adicionarPedido(indexPedidos *fila, const char *remetente) {
     pedidos *novoPedido = criarPedido(remetente);
     if (novoPedido == NULL) {
-        printf("Erro ao alocar memória para o novo pedido.\n");
         return;
     }
 
@@ -49,7 +49,6 @@ void adicionarPedido(indexPedidos *fila, const char *remetente) {
 // Função para remover um pedido da fila
 pedidos* removerPedido(indexPedidos *fila) {
     if (fila->inicio == NULL) {
-        printf("A fila está vazia. Não há pedidos para remover.\n");
         return NULL;
     }
 
@@ -72,4 +71,42 @@ void liberarFila(indexPedidos *fila) {
         free(temp);
     }
     free(fila);
+}
+
+//Funções de Lista de parceiros
+indexParceiros* inicializarListaParceiros(){
+    indexParceiros *lista = (indexParceiros*)malloc(sizeof(indexPedidos));
+    if(lista == NULL){
+        return NULL;
+    }
+    lista ->inicio = NULL;
+    lista ->fim = NULL;
+    return lista;
+}
+
+parceiros* criarParceiro(const char *parceiroApelido){
+    parceiros *novoParceiro = (parceiros*)malloc(sizeof(parceiros));
+
+    strcpy(novoParceiro->parceiro, parceiroApelido);
+    novoParceiro->prox = NULL;
+
+    return novoParceiro;
+}
+
+int adicionarParceiro(indexParceiros *lista, const char *nomeParceiro){
+    parceiros *novoParceiro = criarParceiro(nomeParceiro);
+    if(novoParceiro == NULL){
+        return 0;
+    }
+
+    if (lista->fim != NULL){
+        lista->fim->prox = novoParceiro;
+    }
+
+    if(lista->inicio == NULL){
+        lista->inicio = novoParceiro;
+    }
+
+    lista->fim = novoParceiro;
+    return 1;
 }

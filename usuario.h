@@ -13,7 +13,8 @@ struct usuario {
     char apelido[30];
     char senha[30];
     Conversas *chats;
-    pedidos *pedido;
+    indexPedidos *pedido;
+    indexParceiros *parceiros;
     Usuario *prox;
     Usuario *ant;
 };
@@ -33,5 +34,6 @@ void liberarLista(Posicoes *lista);
 int login(Posicoes *lista, const char *apelido, const char *senha);
 void exibirListaInversa(Posicoes *lista);
 int criarEInserirUsuario(Posicoes *lista, const char *nome, const char *apelido, const char *senha);
+Usuario* buscarUsuario(Posicoes *lista, const char *apelido);
 
 #endif

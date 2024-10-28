@@ -26,7 +26,23 @@ typedef struct parceiros{
 
 }parceiros;
 
-pedidos* criarPedido(const char *remetente);
+typedef struct indexParceiros{
+    
+    parceiros *inicio;
+    parceiros *fim;
+    
+}indexParceiros;
 
+
+pedidos* criarPedido(const char *remetente);
+indexPedidos* inicializarFilaPedidos();
+void adicionarPedido(indexPedidos *fila, const char *remetente);
+pedidos* removerPedido(indexPedidos *fila);
+void liberarFila(indexPedidos *fila);
+
+//Funções de Lista de parceiros
+indexParceiros* inicializarListaParceiros();
+parceiros* criarParceiro(const char *parceiroApelido);
+int adicionarParceiro(indexParceiros *lista, const char *nomeParceiro);
 
 #endif

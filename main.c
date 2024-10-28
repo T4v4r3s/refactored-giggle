@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "usuario.h"
 #include "msg.h"
+#include "parceria.h"
 
 
 void exibirListaInversa(Posicoes *lista);
@@ -20,6 +21,7 @@ int main() {
     char apelidoCadastro[30];
     char senhaCadastro[30];
     char nomeCadastro[50];
+    char apelidoBusca[30];
 
     // Inicialização da lista de usuários
     Posicoes *usuarios = malloc(sizeof(Posicoes));
@@ -116,13 +118,38 @@ int main() {
                     }else{
                         printf("\n Numero Invalido\n");
                     }
-                
 
+                    break;
+                
+                case 3:
+                    printf("\nEntre com o apelido de quem quer ser parceiro: ");
+                    scanf("%s", apelidoBusca);
+
+                    Usuario *busca = NULL;
+                    busca = buscarUsuario(usuarios, apelidoBusca);
+
+                    if (busca == NULL){
+                        printf("\nUsuário não encontrado. Entre com um nome de usuario valido\n");
+                    }else{
+                        adicionarPedido(busca->pedido, apelidoEntrada);
+                        printf("\nPedido enviado com sucesso!\n");
+                    }
+                    break;
+                
+                case 4:
+
+                    
+
+                    break;
+                case 9:
+                    printf("\nFazendo logout...\n");
+                    flagLogado = 0;
+                    break;
                 default:
                     break;
                 }
 
-            } while (escolha != 8 || escolha != 9);
+            } while (escolha != 8 && escolha != 9);
 
         }
     
