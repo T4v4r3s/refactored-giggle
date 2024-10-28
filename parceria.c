@@ -73,6 +73,14 @@ void liberarFila(indexPedidos *fila) {
     free(fila);
 }
 
+// Função para mostrar o elemento mais antigo da fila de pedidos
+pedidos* mostrarPrimeiroFila(indexPedidos *fila) {
+    if (fila->inicio == NULL) {
+        return NULL; // Retorna NULL se a fila estiver vazia
+    }
+    return fila->inicio; // Retorna o pedido mais antigo
+}
+
 //Funções de Lista de parceiros
 indexParceiros* inicializarListaParceiros(){
     indexParceiros *lista = (indexParceiros*)malloc(sizeof(indexPedidos));

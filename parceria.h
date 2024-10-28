@@ -34,11 +34,13 @@ typedef struct indexParceiros{
 }indexParceiros;
 
 
+//Função da fila de pedidos
 pedidos* criarPedido(const char *remetente);
 indexPedidos* inicializarFilaPedidos();
 void adicionarPedido(indexPedidos *fila, const char *remetente);
 pedidos* removerPedido(indexPedidos *fila);
 void liberarFila(indexPedidos *fila);
+pedidos* mostrarPrimeiroFila(indexPedidos *fila);
 
 //Funções de Lista de parceiros
 indexParceiros* inicializarListaParceiros();
