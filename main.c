@@ -5,13 +5,14 @@
 #include "msg.h"
 #include "parceria.h"
 
-
+// Declaracoes de funcoes
 void exibirListaInversa(Posicoes *lista);
 void exibirLista(Posicoes *lista);
 void exibirParceriasUsuario(Usuario *usuario);
 void exibirMensagens(Conversas *chats);
 void sugerirParcerias(Posicoes *listaUsuarios, Usuario *usuarioAtual);
 int jaEhParceiro(indexParceiros *listaUsuario, const char *parceiro);
+void apagarListaUsuarios(Posicoes *usuarios);
 
 int main() {
 
@@ -84,7 +85,7 @@ int main() {
             break;
         case 3:
             funcionando = 0;  // Sair do loop de execucao 
-            printf("Desligando o programa...\n\n Obrigado por usar!\n");
+            printf("Desligando o programa...\n\n Até mais!\n");
             break;
         default:
             printf("Informe um numero valido");
@@ -251,26 +252,7 @@ int main() {
 
                     printf("\n\n\nReiniciando o sistema....\n\n\n");
 
-                    // Liberação de cada lista dentro de cada usuário
-                    Usuario *usuario = usuarios->inicio;
-                    while (usuario != NULL) {
-                        Usuario *temp = usuario;
-
-                        // Libera as conversas do usuário
-                        liberarConversas(usuario->chats);
-                        
-                        // Libera a fila de pedidos do usuário
-                        liberarPedidos(usuario->pedido);
-                        
-                        // Libera a lista de parceiros do usuário
-                        liberarParceiros(usuario->parceiros);
-                        
-                        usuario = usuario->prox;
-                        free(temp);  // Libera o próprio nó de usuário
-                    }
-
-                    // Libera a estrutura da lista de usuários
-                    free(usuarios);
+                    apagarListaUsuarios(usuarios);
 
                     usuarioLogado = NULL;
                     flagLogado = 0;
@@ -299,12 +281,9 @@ int main() {
         
 
     }
-    
 
     // Libera a estrutura da lista de usuários
-    free(usuarios);
-
-
+    apagarListaUsuarios(usuarios);
 
     return 0;
 }
@@ -440,4 +419,26 @@ void sugerirParcerias(Posicoes *listaUsuarios, Usuario *usuarioAtual) {
 }
 
 
+void apagarListaUsuarios(Posicoes *usuarios){
 
+    // Liberação de cada lista dentro de cada usuário
+    Usuario *usuario = usuarios->inicio;
+    while (usuario != NULL) {
+        Usuario *temp = usuario;
+
+        // Libera as conversas do usuário
+        liberarConversas(usuario->chats);
+        
+        // Libera a fila de pedidos do usuário
+        liberarPedidos(usuario->pedido);
+        
+        // Libera a lista de parceiros do usuário
+        liberarParceiros(usuario->parceiros);
+        
+        usuario = usuario->prox;
+        free(temp);  // Libera o próprio nó de usuário
+    }
+
+    // Libera a estrutura da lista de usuários
+    free(usuarios);
+}
