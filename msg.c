@@ -69,59 +69,75 @@ Conteudo *criarConteudo(char *mensagem){
 }
 
 // Função para adicionar um novo conteúdo ao topo da pilha
-void pushConteudo(Conversas *conversa, char *mensagem) {
-    Conteudo *novoConteudo = (Conteudo *)malloc(sizeof(Conteudo));
+int pushConteudo(Conversas *conversa, char *mensagem) {
+    Conteudo *novoConteudo = criarConteudo(mensagem);
     if (novoConteudo == NULL) { // Tratando erro de alocação
-        return;
+        return 0;
     }
 
-    strncpy(novoConteudo->mensagem, mensagem, 300);
+    // Coloca novoConteudo no topo da pilha
+    novoConteudo->prox = conversa->cont; // O novo conteúdo aponta para o antigo topo
+    conversa->cont = novoConteudo; // Atualiza o topo da pilha
 
-    // Adiciona o novo conteúdo ao topo da pilha
-    novoConteudo->prox = conversa->cont;
-    conversa->cont = novoConteudo;
+    return 1;
 }
 
-// Função para remover o conteúdo do topo da pilha
-Conteudo *popConteudo(Conversas *conversa) {
+
+// Função para remover o conteúdo do topo da pilha e retornar a mensagem
+char *popConteudo(Conversas *conversa) {
     if (conversa->cont == NULL) {
         return NULL; // Pilha vazia
     }
 
-    Conteudo *topo = conversa->cont;
-    conversa->cont = topo->prox;
-    topo->prox = NULL;
+    // Armazena o conteúdo do topo
+    Conteudo *topo = conversa->cont; 
 
-    return topo;
-}
-
-
-
-
-/*
-// Mostra as mensagens da conversa sendo a
-void mostrarMensagensConversa(Conversas *conversa) {
-    // Pilha temporária para inverter a ordem
-    Conteudo *pilhaTemporaria = NULL;
-
-    // Retira todos os conteúdos da conversa original e empilha na pilha temporária
-    while (conversa->cont != NULL) {
-        Conteudo *msg = popConteudo(conversa);
-        msg->prox = pilhaTemporaria;
-        pilhaTemporaria = msg;
+    // Copia a mensagem para uma nova área de memória
+    char *mensagem = malloc(strlen(topo->mensagem) + 1);
+    if (mensagem != NULL) {
+        strcpy(mensagem, topo->mensagem);
     }
 
-    // Imprime e libera as mensagens da pilha temporária, restaurando-as na pilha original
-    while (pilhaTemporaria != NULL) {
-        Conteudo *msg = pilhaTemporaria;
-        pilhaTemporaria = pilhaTemporaria->prox;
+    // Atualiza o topo da pilha para o próximo elemento
+    conversa->cont = topo->prox; 
 
-        printf("Remetente: %s\nDestinatario: %s\nMensagem: %s\n\n",
-               msg->remetente, msg->destinatario, msg->mensagem);
+    free(topo);  // Libera o antigo topo
 
-        // Empilha a mensagem de volta na conversa para manter a estrutura original
-        msg->prox = conversa->cont;
-        conversa->cont = msg;
-    }
+    return mensagem;  // Retorna a mensagem copiada
 }
-*/
+
+// Função para buscar a conversa com base no nome do parceiro
+Conversas *buscarConversaPorParceiro(indexConversas *lista, const char *parceiro) {
+    Conversas *atual = lista->inicio;
+
+    // Itera pela lista de conversas
+    while (atual != NULL) {
+        // Compara o nome do parceiro com o parâmetro passado
+        if (strncmp(atual->parceiro, parceiro, 30) == 0) {
+            // Retorna o ponteiro para a conversa encontrada
+            return atual;
+        }
+        atual = atual->prox;
+    }
+
+    // Retorna NULL caso não encontre uma conversa com o parceiro especificado
+    return NULL;
+}
+
+// Função para buscar a primeira conversa que possui conteúdo
+Conversas *buscarPrimeiraConversaComConteudo(indexConversas *lista) {
+    Conversas *atual = lista->inicio;
+
+    // Percorre a lista de conversas
+    while (atual != NULL) {
+        // Verifica se a conversa atual possui conteúdo
+        if (atual->cont != NULL) {
+            // Retorna o ponteiro para a conversa encontrada
+            return atual;
+        }
+        atual = atual->prox;
+    }
+
+    // Retorna NULL caso nenhuma conversa com conteúdo seja encontrada
+    return NULL;
+}

@@ -9,10 +9,11 @@
 void exibirListaInversa(Posicoes *lista);
 void exibirLista(Posicoes *lista);
 void exibirParceriasUsuario(Usuario *usuario);
+void exibirMensagens(Conversas *chats);
 
 int main() {
 
-    // Delcaração de variáveis
+    // Delcaracao de variaveis
     void exibirMenu();
     char apelidoEntrada[30];
     char senhaEntrada[30];
@@ -23,8 +24,9 @@ int main() {
     char senhaCadastro[30];
     char nomeCadastro[50];
     char apelidoBusca[30];
+    char mensagem[300];
 
-    // Inicialização da lista de usuários
+    // Inicializacao da lista de usuarios
     Posicoes *usuarios = malloc(sizeof(Posicoes));
     if (usuarios == NULL) {
         fprintf(stderr, "Erro de alocação de memória.\n");
@@ -37,7 +39,7 @@ int main() {
 
         printf("---------------------------");
         printf("    \nBem-Vindo\n\n");
-        printf("    Escolha uma opcao\n\n");
+        printf("   -- Escolha uma opcao --\n\n");
         printf("1 - Login\n");
         printf("2 - Cadastrar Usuario\n");
         printf("---------------------------\n");
@@ -192,9 +194,47 @@ int main() {
                     break;
                 case 5:
                     printf("\n\nFale o apelido do usuário que gostaria de mandar msg: ");
-                    scanf("%s", apelidoBusca);
+                    while ((getchar()) != '\n'); // Limpa o buffer até a nova linha
+                    fgets(apelidoBusca, sizeof(apelidoBusca), stdin);
+                    // Remove o newline se existir
+                    apelidoBusca[strcspn(apelidoBusca, "\n")] = 0;
+                    
+                    if(buscarParceiro(usuarioLogado->parceiros, apelidoBusca)!=NULL){
+                        Usuario *remetente = buscarUsuario(usuarios, apelidoBusca);
+                        
+                        Conversas *conversa = buscarConversaPorParceiro(remetente->chats, usuarioLogado->nome);
+
+                        printf("\n Informe a mensagem a ser enviada: ");
+                        fgets(mensagem, sizeof(mensagem), stdin);
+                        mensagem[strcspn(mensagem, "\n")] = 0;  // Remove o newline
+
+                        if(pushConteudo(conversa, mensagem)){
+                            printf("\nMensagem enviada com sucesso!\n\n");
+                        }else{
+                            printf("\n Erro interno ao enviar mensagem !\n\n");
+                            return 1;
+                        }
+                    }else{
+                        printf("\nParceiro não encontrado!\n");
+                    }
+
+                    break;
+                case 6:
+                    
+                    Conversas *chats = buscarPrimeiraConversaComConteudo(usuarioLogado->chats);
 
 
+                    if(chats == NULL){
+                        printf("\n Você não tem mais mensagens\n");
+                    }else{
+                        while (chats != NULL) {
+                            // Exibe todas as mensagens da conversa atual
+                            exibirMensagens(chats);
+
+                            // Avança para a próxima conversa
+                            chats = chats->prox; // Supondo que 'prox' é o campo que aponta para a próxima conversa
+                        }
+                    }
 
                     break;
                 case 9:
@@ -236,7 +276,7 @@ void exibirMenu() {
     printf("O que deseja fazer? \n\n");
 }
 
-// Função para exibir a lista
+// Funcao para exibir a lista
 void exibirLista(Posicoes *lista) {
     Usuario *atual = lista->inicio;
     while (atual != NULL) {
@@ -246,7 +286,7 @@ void exibirLista(Posicoes *lista) {
     }
 }
 
-// Função para exibir a lista
+// Funcao para exibir a lista
 void exibirListaInversa(Posicoes *lista) {
     Usuario *atual = lista->fim;
     while (atual != NULL) {
@@ -256,7 +296,7 @@ void exibirListaInversa(Posicoes *lista) {
     }
 }
 
-// Função para exibir todas as parcerias de um usuário
+// Funcao para exibir todas as parcerias de um usuário
 void exibirParceriasUsuario(Usuario *usuario) {
     if (usuario == NULL) {
         printf("Usuário inválido.\n");
@@ -275,4 +315,19 @@ void exibirParceriasUsuario(Usuario *usuario) {
         printf("- %s\n", atual->parceiro);
         atual = atual->prox;
     }
+}
+
+// Funcao para exibir (e excluir) as mensagens
+void exibirMensagens(Conversas *chats) {
+    char *mensagem;
+
+    printf("\n Suas mensagens são:\n");
+
+    do {
+        mensagem = popConteudo(chats);
+        if (mensagem != NULL) {
+            printf("\n(%s)-> %s \n",chats->parceiro, mensagem);
+            // Opcionalmente, liberar a memória de conteudo aqui, se necessário.
+        }
+    } while (chats->cont != NULL);
 }

@@ -46,6 +46,6 @@ pedidos* mostrarPrimeiroFila(indexPedidos *fila);
 indexParceiros* inicializarListaParceiros();
 parceiros* criarParceiro(const char *parceiroApelido);
 int adicionarParceiro(indexParceiros *lista, const char *nomeParceiro);
-
+parceiros* buscarParceiro(indexParceiros *lista, const char *nomeParceiro);
 
 #endif

@@ -118,3 +118,19 @@ int adicionarParceiro(indexParceiros *lista, const char *nomeParceiro){
     lista->fim = novoParceiro;
     return 1;
 }
+
+// Função para buscar um parceiro pelo apelido na lista de parceiros
+parceiros* buscarParceiro(indexParceiros *lista, const char *nomeParceiro) {
+    if (lista == NULL || lista->inicio == NULL) {
+        return NULL;
+    }
+
+    parceiros *atual = lista->inicio;
+    while (atual != NULL) {
+        if (strcmp(atual->parceiro, nomeParceiro) == 0) {
+            return atual; // Retorna o ponteiro para o parceiro encontrado
+        }
+        atual = atual->prox;
+    }
+    return NULL; // Retorna NULL se o parceiro não foi encontrado
+}
