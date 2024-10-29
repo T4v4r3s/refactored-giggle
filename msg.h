@@ -41,4 +41,10 @@ char *popConteudo(Conversas *conversa);
 Conversas *buscarConversaPorParceiro(indexConversas *lista, const char *parceiro);
 Conversas *buscarPrimeiraConversaComConteudo(indexConversas *lista);
 
+
+// Funcoes para dar free
+
+void liberarConteudo(Conteudo *conteudo);
+void liberarConversas(indexConversas *chats);
+
 #endif

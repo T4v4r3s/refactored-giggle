@@ -44,6 +44,7 @@ int main() {
         printf("   -- Escolha uma opcao --\n\n");
         printf("1 - Login\n");
         printf("2 - Cadastrar Usuario\n");
+        printf("3 - SAIR!\n");
         printf("---------------------------\n");
 
         scanf("%d", &escolha);
@@ -80,7 +81,10 @@ int main() {
                 printf("Erro ao criar usuario\n");
             }
 
-
+            break;
+        case 3:
+            funcionando = 0;  // Sair do loop de execucao 
+            printf("Desligando o programa...\n\n Obrigado por usar!\n");
             break;
         default:
             printf("Informe um numero valido");
@@ -242,6 +246,44 @@ int main() {
                 case 7:
                     sugerirParcerias(usuarios, usuarioLogado);
                     break;
+
+                case 8:
+
+                    printf("\n\n\nReiniciando o sistema....\n\n\n");
+
+                    // Liberação de cada lista dentro de cada usuário
+                    Usuario *usuario = usuarios->inicio;
+                    while (usuario != NULL) {
+                        Usuario *temp = usuario;
+
+                        // Libera as conversas do usuário
+                        liberarConversas(usuario->chats);
+                        
+                        // Libera a fila de pedidos do usuário
+                        liberarPedidos(usuario->pedido);
+                        
+                        // Libera a lista de parceiros do usuário
+                        liberarParceiros(usuario->parceiros);
+                        
+                        usuario = usuario->prox;
+                        free(temp);  // Libera o próprio nó de usuário
+                    }
+
+                    // Libera a estrutura da lista de usuários
+                    free(usuarios);
+
+                    usuarioLogado = NULL;
+                    flagLogado = 0;
+
+                    // Inicializacao da lista de usuarios
+                    Posicoes *usuarios = malloc(sizeof(Posicoes));
+                    if (usuarios == NULL) {
+                        fprintf(stderr, "Erro de alocação de memória.\n");
+                        return 1;
+                    }
+                    inicializarLista(usuarios);
+
+                    break;
                 case 9:
                     printf("\nFazendo logout...\n");
                     flagLogado = 0;
@@ -254,12 +296,13 @@ int main() {
 
         }
     
-    
+        
 
     }
     
 
-
+    // Libera a estrutura da lista de usuários
+    free(usuarios);
 
 
 

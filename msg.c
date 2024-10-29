@@ -141,3 +141,25 @@ Conversas *buscarPrimeiraConversaComConteudo(indexConversas *lista) {
     // Retorna NULL caso nenhuma conversa com conteúdo seja encontrada
     return NULL;
 }
+
+// Funcoes para dar free
+
+void liberarConteudo(Conteudo *conteudo) {
+    while (conteudo != NULL) {
+        Conteudo *temp = conteudo;
+        conteudo = conteudo->prox;
+        free(temp);
+    }
+}
+
+void liberarConversas(indexConversas *chats) {
+    if (chats == NULL) return;
+    Conversas *conversa = chats->inicio;
+    while (conversa != NULL) {
+        Conversas *temp = conversa;
+        liberarConteudo(conversa->cont);  // Libera a lista de conteúdo dentro da conversa
+        conversa = conversa->prox;
+        free(temp);
+    }
+    free(chats);
+}

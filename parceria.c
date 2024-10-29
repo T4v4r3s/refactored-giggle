@@ -134,3 +134,31 @@ parceiros* buscarParceiro(indexParceiros *lista, const char *nomeParceiro) {
     }
     return NULL; // Retorna NULL se o parceiro não foi encontrado
 }
+
+
+
+
+// Funcoes para dar free
+
+void liberarPedidos(indexPedidos *fila) {
+    if (fila == NULL) return;
+    Pedidos *pedido = fila->inicio;
+    while (pedido != NULL) {
+        Pedidos *temp = pedido;
+        pedido = pedido->prox;
+        free(temp);
+    }
+    free(fila);
+}
+
+void liberarParceiros(indexParceiros *listaParceiro) {
+    if (listaParceiro == NULL) return;
+    
+    parceiros *parceiroAtual = listaParceiro->inicio;
+    while (parceiroAtual != NULL) {
+        parceiros *temp = parceiroAtual;
+        parceiroAtual = parceiroAtual->prox;
+        free(temp);
+    }
+    free(listaParceiro);
+}

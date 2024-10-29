@@ -48,4 +48,10 @@ parceiros* criarParceiro(const char *parceiroApelido);
 int adicionarParceiro(indexParceiros *lista, const char *nomeParceiro);
 parceiros* buscarParceiro(indexParceiros *lista, const char *nomeParceiro);
 
+
+// Funcoes para dar free
+
+void liberarPedidos(indexPedidos *fila);
+void liberarParceiros(indexParceiros *listaParceiro);
+
 #endif
