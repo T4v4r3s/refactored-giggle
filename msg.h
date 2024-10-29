@@ -9,12 +9,17 @@ typedef struct conversas Conversas;
 
 struct conteudo{
 
-    char remetente[30];
-    char destinatario[30];
     char mensagem[300];
     Conteudo *prox;
     
 };
+
+typedef struct indexConversas{
+
+    Conversas *inicio;
+    Conversas *fim;
+
+}indexConversas;
 
 struct conversas{
 
@@ -25,8 +30,12 @@ struct conversas{
 };
 
 
+
+
 Conversas *criarConversa(char *destinatario);
-Conteudo *criarConteudo(char *remetente, char *destinatario, char *mensagem);
-void pushConteudo(Conversas *conversa, char *remetente, char *destinatario, char *mensagem);
+Conteudo *criarConteudo(char *mensagem);
+void pushConteudo(Conversas *conversa, char *mensagem);
+indexConversas *inicarConversas();
+int adicionarConversas(indexConversas *lista,char *parceiro);
 
 #endif

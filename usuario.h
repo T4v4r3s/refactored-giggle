@@ -12,7 +12,7 @@ struct usuario {
     char nome[50];
     char apelido[30];
     char senha[30];
-    Conversas *chats;
+    indexConversas *chats;
     indexPedidos *pedido;
     indexParceiros *parceiros;
     Usuario *prox;

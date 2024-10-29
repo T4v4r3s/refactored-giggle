@@ -2,11 +2,48 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+indexConversas *inicarConversas(){
+
+    indexConversas *lista = (indexConversas*)malloc(sizeof(indexConversas));
+
+    if(lista == NULL){
+        return NULL;
+    }
+
+    lista->inicio = NULL;
+    lista->fim = NULL;
+
+    return lista;
+
+}
+
+int adicionarConversas(indexConversas *lista, char *parceiro){
+
+    Conversas *chat = criarConversa(parceiro);
+
+    if (chat == NULL){
+        return 0;
+    }
+
+    if(lista->fim != NULL){
+        lista->fim->prox = chat;
+    }
+
+    if(lista->inicio == NULL){
+        lista->inicio = chat;
+    }
+    
+    lista->fim = chat;
+
+    return 1;
+}
+
 Conversas *criarConversa(char *destinatario){
 
     Conversas *novaConversa = (Conversas *)malloc(sizeof(Conversas));
     if(novaConversa == NULL){ // Tratando erro de alocação
-        return NULL;
+         return NULL;
     }
 
     strncpy(novaConversa->parceiro, destinatario, 30);
@@ -18,15 +55,13 @@ Conversas *criarConversa(char *destinatario){
     
 }
 
-Conteudo *criarConteudo(char *remetente, char *destinatario, char *mensagem){
+Conteudo *criarConteudo(char *mensagem){
 
     Conteudo *novoConteudo = (Conteudo *)malloc(sizeof(Conteudo));
     if(novoConteudo == NULL){ // Tratando erro de alocação
         return NULL;
     }
 
-    strncpy(novoConteudo->remetente, remetente, 30);
-    strncpy(novoConteudo->destinatario, destinatario, 30);
     strncpy(novoConteudo->mensagem, mensagem, 300);
     novoConteudo->prox = NULL;
 
@@ -34,14 +69,12 @@ Conteudo *criarConteudo(char *remetente, char *destinatario, char *mensagem){
 }
 
 // Função para adicionar um novo conteúdo ao topo da pilha
-void pushConteudo(Conversas *conversa, char *remetente, char *destinatario, char *mensagem) {
+void pushConteudo(Conversas *conversa, char *mensagem) {
     Conteudo *novoConteudo = (Conteudo *)malloc(sizeof(Conteudo));
     if (novoConteudo == NULL) { // Tratando erro de alocação
         return;
     }
 
-    strncpy(novoConteudo->remetente, remetente, 30);
-    strncpy(novoConteudo->destinatario, destinatario, 30);
     strncpy(novoConteudo->mensagem, mensagem, 300);
 
     // Adiciona o novo conteúdo ao topo da pilha
@@ -62,6 +95,10 @@ Conteudo *popConteudo(Conversas *conversa) {
     return topo;
 }
 
+
+
+
+/*
 // Mostra as mensagens da conversa sendo a
 void mostrarMensagensConversa(Conversas *conversa) {
     // Pilha temporária para inverter a ordem
@@ -87,3 +124,4 @@ void mostrarMensagensConversa(Conversas *conversa) {
         conversa->cont = msg;
     }
 }
+*/

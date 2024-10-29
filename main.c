@@ -149,12 +149,36 @@ int main() {
                             scanf("%d", &escolhaPedido);
 
                             if(escolhaPedido == 1){
+                                // Adiciona o parceiro na lista do usuario atual
                                 adicionarParceiro(usuarioLogado->parceiros, proximoPedido->remetente);
+
+                                // Adiciona um chat ao usuario atual sendo o remetendo esse novo parceiro
+                                if(adicionarConversas(usuarioLogado->chats, proximoPedido->remetente)){
+                                    printf("\n%s conectado com chat ao %s", usuarioLogado->apelido, proximoPedido->remetente);
+                                }else{
+                                    printf("\n\n\n ERRO AO ADICIONAR CHAT, PROGRAMA PARANDO!....");
+                                    return 1;
+                                }
+                                
+                                // Procura qual eh a estrutura do parceiro a ser adicionado
                                 Usuario *usuarioRemetente = buscarUsuario(usuarios, proximoPedido->remetente);
+                                
+                                // Adiciona o usuario atual na lista de parceiros
                                 adicionarParceiro(usuarioRemetente->parceiros, usuarioLogado->apelido);
+                                
+                                // Adiciona um chat ao parceiro sendo o remetente o usuario atual
+                                if(adicionarConversas(usuarioRemetente->chats, usuarioLogado->apelido)){
+                                    printf("\n%s conctado com chat ao %s", usuarioRemetente->apelido, usuarioLogado->apelido);
+                                }else{
+                                    printf("\n\n\n ERRO AO ADICIONAR CHAT, PROGRAMA PARANDO!....");
+                                    return 1;
+                                }
+
+                                // Remove o pedido uma vez que foi aceito
                                 removerPedido(usuarioLogado->pedido);
                                 printf("\nPedido aceito com sucesso!\n");
                             }else if(escolhaPedido == 2){
+                                // Uma vez que recusou, apenas o pedido eh excluido
                                 removerPedido(usuarioLogado->pedido);
                                 printf("\nPedido recusado com sucesso!\n");
                             }else{
@@ -164,7 +188,14 @@ int main() {
                             proximoPedido = mostrarPrimeiroFila(usuarioLogado->pedido);
                         }
                     }
-                    printf("Nennhum pedido encontrado!");
+                    printf("\nNennhum pedido encontrado!\n");
+                    break;
+                case 5:
+                    printf("\n\nFale o apelido do usuário que gostaria de mandar msg: ");
+                    scanf("%s", apelidoBusca);
+
+
+
                     break;
                 case 9:
                     printf("\nFazendo logout...\n");

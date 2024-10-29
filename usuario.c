@@ -3,6 +3,7 @@
 #include <string.h>
 #include "usuario.h"
 #include "parceria.h"
+#include "msg.h"
 
 // Função para inicializar a lista
 void inicializarLista(Posicoes *lista) {
@@ -16,8 +17,9 @@ Usuario* criarUsuario(const char *nome, const char *apelido, const char *senha) 
     strcpy(novo->nome, nome);
     strcpy(novo->apelido, apelido);
     strcpy(novo->senha, senha);
-    novo-> chats = NULL;
-    
+
+    // Inicializa a lista de conversas
+    novo->chats = inicarConversas();
     // Inicializa a lista de parceiros
     novo->parceiros = inicializarListaParceiros();
     // Inicializa a fila de pedidos
