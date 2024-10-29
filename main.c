@@ -10,6 +10,8 @@ void exibirListaInversa(Posicoes *lista);
 void exibirLista(Posicoes *lista);
 void exibirParceriasUsuario(Usuario *usuario);
 void exibirMensagens(Conversas *chats);
+void sugerirParcerias(Posicoes *listaUsuarios, Usuario *usuarioAtual);
+int jaEhParceiro(indexParceiros *listaUsuario, const char *parceiro);
 
 int main() {
 
@@ -237,6 +239,9 @@ int main() {
                     }
 
                     break;
+                case 7:
+                    sugerirParcerias(usuarios, usuarioLogado);
+                    break;
                 case 9:
                     printf("\nFazendo logout...\n");
                     flagLogado = 0;
@@ -296,7 +301,7 @@ void exibirListaInversa(Posicoes *lista) {
     }
 }
 
-// Funcao para exibir todas as parcerias de um usuário
+// Funcao para exibir todas as parcerias de um usuario
 void exibirParceriasUsuario(Usuario *usuario) {
     if (usuario == NULL) {
         printf("Usuário inválido.\n");
@@ -327,7 +332,69 @@ void exibirMensagens(Conversas *chats) {
         mensagem = popConteudo(chats);
         if (mensagem != NULL) {
             printf("\n(%s)-> %s \n",chats->parceiro, mensagem);
-            // Opcionalmente, liberar a memória de conteudo aqui, se necessário.
+            // Opcionalmente, liberar a memoria de conteudo aqui, se necessario.
         }
     } while (chats->cont != NULL);
 }
+
+// Funcao para verificar se um parceiro ja eh parceiro do usuario
+int jaEhParceiro(indexParceiros *listaUsuario, const char *parceiro) {
+    for (parceiros *p1 = listaUsuario->inicio; p1 != NULL; p1 = p1->prox) {
+        if (strcmp(p1->parceiro, parceiro) == 0) {
+            return 1; // Ja eh parceiro
+        }
+    }
+    return 0; // Nao eh parceiro
+}
+
+// Funcao para mostrar sugestoes de amizade
+void sugerirParcerias(Posicoes *listaUsuarios, Usuario *usuarioAtual) {
+    // Acessar a lista de parceiros do usuario atual
+    indexParceiros *listaUsuarioAtual = usuarioAtual->parceiros;
+
+    // Vetor para armazenar sugestoes
+    char *sugestoes[500];
+    int numSugestoes = 0;
+
+    // Para cada parceiro do usuario atual
+    parceiros *atualParceiro = listaUsuarioAtual->inicio;
+    while (atualParceiro != NULL) {
+        // Buscar o usuario correspondente ao parceiro
+        Usuario *parceiro = buscarUsuario(listaUsuarios, atualParceiro->parceiro);
+        if (parceiro != NULL) {
+            // Para cada parceiro do parceiro encontrado
+            parceiros *parceirosDoParceiro = parceiro->parceiros->inicio;
+            while (parceirosDoParceiro != NULL) {
+                // Verificar se o parceiro do parceiro nao eh o usuario atual
+                if (strcmp(parceirosDoParceiro->parceiro, usuarioAtual->apelido) != 0) {
+                    // Verificar se nao eh um parceiro do usuario atual
+                    if (buscarParceiro(listaUsuarioAtual, parceirosDoParceiro->parceiro) == NULL) {
+                        // Adicionar a lista de sugestões
+                        sugestoes[numSugestoes] = strdup(parceirosDoParceiro->parceiro);
+                        numSugestoes++;
+                    }
+                }
+                parceirosDoParceiro = parceirosDoParceiro->prox;
+            }
+        }
+        atualParceiro = atualParceiro->prox;
+    }
+
+    // Imprimir as sugestoes
+    if (numSugestoes > 0) {
+        printf("Sugestão de novas parcerias: ");
+        for (int i = 0; i < numSugestoes; i++) {
+            printf("%s", sugestoes[i]);
+            if (i < numSugestoes - 1) {
+                printf(", "); // Adicionar virgula entre as sugestoes
+            }
+            free(sugestoes[i]); // Liberar a memoria alocada
+        }
+        printf("\n");
+    } else {
+        printf("Não há novas parcerias sugeridas.\n");
+    }
+}
+
+
+
