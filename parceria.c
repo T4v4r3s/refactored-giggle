@@ -2,7 +2,7 @@
 #include <string.h>
 #include "parceria.h"
 
-pedidos* criarPedido(const char *remetente) {
+pedidos* criarPedido(char *remetente) {
     pedidos *novoPedido = (pedidos*)malloc(sizeof(pedidos)); // Alocar memória para o novo pedido
 
     if (novoPedido == NULL) {
@@ -29,7 +29,7 @@ indexPedidos* inicializarFilaPedidos() {
 
 
 // Função para adicionar um pedido à fila
-void adicionarPedido(indexPedidos *fila, const char *remetente) {
+void adicionarPedido(indexPedidos *fila, char *remetente) {
     pedidos *novoPedido = criarPedido(remetente);
     if (novoPedido == NULL) {
         return;
@@ -83,16 +83,16 @@ pedidos* mostrarPrimeiroFila(indexPedidos *fila) {
 
 //Funções de Lista de parceiros
 indexParceiros* inicializarListaParceiros(){
-    indexParceiros *lista = (indexParceiros*)malloc(sizeof(indexPedidos));
+    indexParceiros *lista = (indexParceiros*)malloc(sizeof(indexParceiros));
     if(lista == NULL){
         return NULL;
     }
-    lista ->inicio = NULL;
-    lista ->fim = NULL;
+    lista->inicio = NULL;
+    lista->fim = NULL;
     return lista;
 }
 
-parceiros* criarParceiro(const char *parceiroApelido){
+parceiros* criarParceiro(char *parceiroApelido){
     parceiros *novoParceiro = (parceiros*)malloc(sizeof(parceiros));
 
     strcpy(novoParceiro->parceiro, parceiroApelido);
@@ -101,7 +101,7 @@ parceiros* criarParceiro(const char *parceiroApelido){
     return novoParceiro;
 }
 
-int adicionarParceiro(indexParceiros *lista, const char *nomeParceiro){
+int adicionarParceiro(indexParceiros *lista, char *nomeParceiro){
     parceiros *novoParceiro = criarParceiro(nomeParceiro);
     if(novoParceiro == NULL){
         return 0;
@@ -120,7 +120,7 @@ int adicionarParceiro(indexParceiros *lista, const char *nomeParceiro){
 }
 
 // Função para buscar um parceiro pelo apelido na lista de parceiros
-parceiros* buscarParceiro(indexParceiros *lista, const char *nomeParceiro) {
+parceiros* buscarParceiro(indexParceiros *lista, char *nomeParceiro) {
     if (lista == NULL || lista->inicio == NULL) {
         return NULL;
     }
