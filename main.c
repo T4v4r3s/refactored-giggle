@@ -209,7 +209,7 @@ int main() {
                     if(buscarParceiro(usuarioLogado->parceiros, apelidoBusca)!=NULL){
                         Usuario *remetente = buscarUsuario(usuarios, apelidoBusca);
                         
-                        Conversas *conversa = buscarConversaPorParceiro(remetente->chats, usuarioLogado->nome);
+                        Conversas *conversa = buscarConversaPorParceiro(remetente->chats, usuarioLogado->apelido);
                         if(conversa != NULL){
                             printf("\n Informe a mensagem a ser enviada: ");
                             fgets(mensagem, sizeof(mensagem), stdin);
