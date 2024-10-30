@@ -262,7 +262,7 @@ int main() {
                     flagLogado = 0;
 
                     // Inicializacao da lista de usuarios
-                    Posicoes *usuarios = malloc(sizeof(Posicoes));
+                    usuarios = malloc(sizeof(Posicoes));
                     if (usuarios == NULL) {
                         fprintf(stderr, "Erro de alocação de memória.\n");
                         return 1;

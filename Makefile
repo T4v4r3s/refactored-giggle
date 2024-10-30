@@ -2,7 +2,7 @@
 CC = gcc
 
 # Flags de compilação
-CFLAGS = -Wall -Wextra -Wno-unused-result -Wuninitialized
+CFLAGS = -Wall -Wextra 
 
 # Objetos
 OBJ = main.o msg.o usuario.o parceria.o
