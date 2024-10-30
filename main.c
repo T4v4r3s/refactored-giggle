@@ -210,17 +210,21 @@ int main() {
                         Usuario *remetente = buscarUsuario(usuarios, apelidoBusca);
                         
                         Conversas *conversa = buscarConversaPorParceiro(remetente->chats, usuarioLogado->nome);
+                        if(conversa != NULL){
+                            printf("\n Informe a mensagem a ser enviada: ");
+                            fgets(mensagem, sizeof(mensagem), stdin);
+                            mensagem[strcspn(mensagem, "\n")] = 0;  // Remove o newline
 
-                        printf("\n Informe a mensagem a ser enviada: ");
-                        fgets(mensagem, sizeof(mensagem), stdin);
-                        mensagem[strcspn(mensagem, "\n")] = 0;  // Remove o newline
-
-                        if(pushConteudo(conversa, mensagem)){
-                            printf("\nMensagem enviada com sucesso!\n\n");
+                            if(pushConteudo(conversa, mensagem)){
+                                printf("\nMensagem enviada com sucesso!\n\n");
+                            }else{
+                                printf("\n Erro interno ao enviar mensagem !\n\n");
+                                return 1;
+                            }
                         }else{
-                            printf("\n Erro interno ao enviar mensagem !\n\n");
-                            return 1;
+                            printf("\nErro ao conectar ao chat do %s", apelidoBusca);
                         }
+
                     }else{
                         printf("\nParceiro não encontrado!\n");
                     }

@@ -107,7 +107,7 @@ char *popConteudo(Conversas *conversa) {
 }
 
 // Função para buscar a conversa com base no nome do parceiro
-Conversas *buscarConversaPorParceiro(indexConversas *lista, const char *parceiro) {
+Conversas *buscarConversaPorParceiro(indexConversas *lista, char *parceiro) {
     Conversas *atual = lista->inicio;
 
     // Itera pela lista de conversas

@@ -38,7 +38,7 @@ int pushConteudo(Conversas *conversa, char *mensagem);
 indexConversas *inicarConversas();
 int adicionarConversas(indexConversas *lista,char *parceiro);
 char *popConteudo(Conversas *conversa);
-Conversas *buscarConversaPorParceiro(indexConversas *lista, const char *parceiro);
+Conversas *buscarConversaPorParceiro(indexConversas *lista,char *parceiro);
 Conversas *buscarPrimeiraConversaComConteudo(indexConversas *lista);
 
 
