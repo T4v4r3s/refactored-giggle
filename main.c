@@ -54,7 +54,7 @@ int main() {
         {
         case 1:
             printf("===== Login =====\n");
-            printf("Digite o nome de usuário: ");
+            printf("Digite o apelido do usuário: ");
             scanf("%s", apelidoEntrada);
             printf("Digite a senha: ");
             scanf("%s", senhaEntrada);
@@ -154,7 +154,7 @@ int main() {
                         if(proximoPedido == NULL){
                             printf("Nennhum pedido encontrado!");
                         }else{
-                            printf("\n%s deseja ser sua parceira. Aceita (1 - sim/2 -não)?\n", proximoPedido->remetente);
+                            printf("\n%s deseja ser seu/sua parceiro/a. Aceita (1 - sim/2 -não)?\n", proximoPedido->remetente);
                             scanf("%d", &escolhaPedido);
 
                             if(escolhaPedido == 1){
